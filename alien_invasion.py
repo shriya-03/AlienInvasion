@@ -61,14 +61,25 @@ class AlienInvasion:
             if self.bullet:
     # Only update position if bullet is not at top
                if self.bullet.rect.top > 0:
-                   self.bullet.update()               
+                   self.bullet.update()
+
+                   if self.alien and self.bullet.rect.colliderect(self.alien.rect):
+                       self.bullet = None
+                       self.alien = None
+               else:
+                   self.bullet = None               
                    
 
             self.screen.fill(self.bg_color)
             if self.bullet:
                 self.bullet.draw()
             self.ship.blitme()
-            self.alien.blitme()
+
+            if self.alien:
+                self.alien.blitme()
+
+
+            
             pygame.display.flip()
 # painting a picture behind a curtain.
 # screen.fill- wipe the canvas clean.
