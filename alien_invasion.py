@@ -3,6 +3,7 @@ import pygame
 from Settings import Settings
 from ship import Ship
 from bullet import Bullet
+from Alien import Alien
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -26,6 +27,8 @@ class AlienInvasion:
 # Creates the player’s ship.
 # Passes the self object (the whole game) so the ship can access the screen and settings.
 
+        self.alien = Alien(self)
+
     def run_game(self):
         """Start the main loop for the game."""
         while True:
@@ -41,35 +44,31 @@ class AlienInvasion:
 
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE:
-                           if self.bullet is None:  # Only fire if no bullet
+                           if self.bullet is None:  # If no bullet on screen create one
                                self.bullet = Bullet(self)
 
                 elif event.type == pygame.KEYUP:#If the player released a key
                     if event.key == pygame.K_RIGHT:
                         self.ship.moving_right = False
                     elif event.key == pygame.K_LEFT:
-                        self.ship.moving_left = False
-
-                
-
+                        self.ship.moving_left = False                
 
             self.ship.update()
+
             #Calls the update() method from ship.py.
 #This checks the flags moving_right and moving_left, and moves the ship if needed.
             # Update bullet
             if self.bullet:
     # Only update position if bullet is not at top
                if self.bullet.rect.top > 0:
-                   self.bullet.update()
-
-
-
-
+                   self.bullet.update()               
+                   
 
             self.screen.fill(self.bg_color)
             if self.bullet:
                 self.bullet.draw()
             self.ship.blitme()
+            self.alien.blitme()
             pygame.display.flip()
 # painting a picture behind a curtain.
 # screen.fill- wipe the canvas clean.
