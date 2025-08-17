@@ -4,7 +4,7 @@ class Ship:
     """A class to manage the player's ship."""
 
     def __init__(self, alien_invasion_object): #Takes the game instance (AlienInvasion) as a parameter to get screen and settings.
-        self.screen = alien_invasion_object.screen #Stores screen and settings
+        self.screen = alien_invasion_object.screen #Stores screen and settings.The ship remembers the screen so it knows where to draw itself.
         self.settings = alien_invasion_object.settings
         self.screen_rect = alien_invasion_object.screen.get_rect()#This gives rectangle,Useful for positioning the ship
 
@@ -20,11 +20,6 @@ class Ship:
         self.moving_right = False
         self.moving_left = False
 
-
-
-
-
-
     def update(self):#This is the method that updates the ship’s position on screen.
        if self.moving_right:# check Is the player currently holding the right arrow key?
         #If yes, we want to move the ship right... but only if it's not at the edge.
@@ -37,7 +32,6 @@ class Ship:
 # This condition checks:
 # “Is the ship still inside the right side of the screen?”
 # If yes, then move.
-
 
 
        if self.moving_left:#Same as before, but checking if the player is holding the left arrow key.

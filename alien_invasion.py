@@ -3,7 +3,7 @@ import pygame
 from Settings import Settings
 from ship import Ship
 from bullet import Bullet
-from Alien import Alien
+from alien import Alien
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -27,7 +27,15 @@ class AlienInvasion:
 # Creates the player’s ship.
 # Passes the self object (the whole game) so the ship can access the screen and settings.
 
-        self.alien = Alien(self)
+        self.aliens = []
+        left_alien = Alien(self, position="left")
+        self.aliens.append(left_alien)
+
+        center_alien = Alien(self, position="center")
+        self.aliens.append(center_alien)    
+
+        right_alien = Alien(self, position="right")
+        self.aliens.append(right_alien)
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -63,24 +71,27 @@ class AlienInvasion:
                if self.bullet.rect.top > 0:
                    self.bullet.update()
 
-                   if self.alien and self.bullet.rect.colliderect(self.alien.rect):
-                       self.bullet = None
-                       self.alien = None
+                   for alien in self.aliens:
+                       if alien and self.bullet.rect.colliderect(alien.rect):
+                           self.aliens.remove(alien)
+                           self.bullet = None
+                           break
+                    #    self.bullet = None
+                    #    self.alien = None
                else:
                    self.bullet = None               
                    
 
             self.screen.fill(self.bg_color)
-            if self.bullet:
-                self.bullet.draw()
-            self.ship.blitme()
+            if self.bullet:#checks if there is a bullet
+                self.bullet.draw()#draws bullet
+            self.ship.blitme()#draws ship onscreen
 
-            if self.alien:
-                self.alien.blitme()
-
+            for alien in self.aliens:
+                alien.blitme()#draws 1 alien at a time
 
             
-            pygame.display.flip()
+            pygame.display.flip()#refreshes screen and shows updates
 # painting a picture behind a curtain.
 # screen.fill- wipe the canvas clean.
 # blitme- draw the ship.
